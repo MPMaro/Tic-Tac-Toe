@@ -22,7 +22,6 @@ def get_player_details(currentplayer):
     
 
 def print_grid():
-    """Function to print the grid"""
     for i in grid:
         print( i, ':', grid[i], ' ', end='')
         if i%3 == 0:
@@ -46,18 +45,18 @@ def insert_input(gridpos, marker):
         grid[gridpos] = marker
         
     else:
-        print("spot taken, pick another no.")
+        print("spot taken, pick another number.")
 
 def play_again():
     print("Do you want to play again?")
     option= input()
 
     if option.upper() == 'Y':
-        for z in grid:
-            grid[z] = ' '
+        for x in grid:
+            grid[x] = ' '
         return True
     else:
-        print("Thanks for playing. See you next time!")
+        print("Game Ended")
         return False
     
     
@@ -78,7 +77,7 @@ while play:
 
     winner = win_game(player_details[1], currentplayer)
     if count == 9 and not winner:
-        print("It's a tie!!")
+        print("It's a Tie")
         tie = True
         print_grid()
 
