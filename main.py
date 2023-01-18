@@ -1,51 +1,89 @@
+
+ # Global Grid
 grid = { 1 : ' ', 2 : ' ', 3: ' ',
          4 : ' ', 5 : ' ', 6 : ' ', 
          7 : ' ', 8 : ' ', 9 : ' '}
 
-count = 0	
-winner = False	
+ # Variables
+count = 0		
+winner = False		
 play = True		
-tie = False
-currentplayer = ''	
-player_details = []
+tie = False		
+currentplayer = " "
+player_details = []	
 
+# Helper functions
+def get_player_details(currentplayer):
 
-def player_deatails(cuurentplayer):
-    if cuurentplayer == "1":
-        return ["2","O"]
+    if currentplayer == '1':
+        return ['2','O']
     else:
-        return ["1", "X"]
+        return ['1','X']
     
-  
-  # Prints the board  
+
 def print_grid():
-    for i in range(len(grid)):
-        print( i, ":", grid[i], " ")
+    """Function to print the grid"""
+    for i in grid:
+        print( i, ':', grid[i], ' ', end='')
         if i%3 == 0:
             print()
+
+
+def win_game(marker, player_id):
+    win_positions = [(1, 2, 3), (4, 5, 6), (7, 8, 9), (1, 4, 7), (2, 5, 8), (3, 6, 9), (1, 5, 9), (3, 5, 7)]
+    for position in win_positions:
+        if all(grid[i] == marker for i in position):
+            print_grid()
             
+            print("Player" + " " + player_id +  " " + "wins!")
+            return True
+
+    return False
+
+
+def insert_input(gridpos, marker):
+    if grid[gridpos] == ' ':
+        grid[gridpos] = marker
         
-        
-def win_checker(marker, playerid):
-    if grid[1] == marker and grid[2] == marker and grid[3] == marker or \
-    grid[1] == marker and grid[4] == marker and grid[7] == marker or \
-    grid[1] == marker and grid[5] == marker and grid[9] == marker or \
-    grid[2] == marker and grid[5] == marker and grid[8] == marker or \
-    grid[3] == marker and grid[5] == marker and grid[7] == marker or \
-    grid[3] == marker and grid[6] == marker and grid[9] == marker or \
-    grid[4] == marker and grid[5] == marker and grid[6] == marker or \
-    grid[7] == marker and grid[8] == marker and grid[9] == marker:
-        print_grid()
-        print("Player :" + playerid + "wins")
+    else:
+        print("spot taken, pick another no.")
+
+def play_again():
+    print("Do you want to play again?")
+    option= input()
+
+    if option.upper() == 'Y':
+        for z in grid:
+            grid[z] = ' '
         return True
-    
-    else: 
+    else:
+        print("Thanks for playing. See you next time!")
         return False
     
     
-def input(gridpos, marker):
-    """Function for capturing user inputs"""
-    while grid[gridpos] != ' ':
-        print("spot taken, pick another no.")
-        grid = int(input())
-    grid[gridpos] = marker
+# Main program
+while play:
+
+    print_grid()
+
+    player_details = get_player_details(currentplayer)
+    currentplayer = player_details[0]
+    print("Player" + " " + currentplayer + " " + "Enter a number between 1 and 9")
+    input_slot = int(input())
+
+    #Insert'X' or 'O'
+    insert_input(input_slot, player_details[1])
+    count += 1
+    
+
+    winner = win_game(player_details[1], currentplayer)
+    if count == 9 and not winner:
+        print("It's a tie!!")
+        tie = True
+        print_grid()
+
+    if winner or tie:
+        play = play_again()
+        if play:
+            currentplayer = ''
+            count = 0
