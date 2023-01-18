@@ -48,7 +48,7 @@ def insert_input(gridpos, marker):
         print("spot taken, pick another number.")
 
 def play_again():
-    print("Do you want to play again?")
+    print("Do you want to play again?, if so type Y")
     option= input()
 
     if option.upper() == 'Y':
